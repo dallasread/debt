@@ -1,0 +1,118 @@
+<h3>
+    Pay down your debts <em>fast</em>.
+</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Debt</th>
+            <th>Principle</th>
+            <th>Annual Interest</th>
+            <th>Minimum Payment</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#with app=app debts=debts}}
+            {{#each debts}}
+                <tr>
+                    <td>
+                        {{>input app=app value=name field='name' binder=this placeholder='Debt Name'}}
+                    </td>
+                    <td>
+                        {{>input app=app type='number' format='integer' value=principle field='principle' binder=this placeholder='100,000'}}
+                    </td>
+                    <td>
+                        {{>input app=app type='number' format='float' value=rate field='rate' binder=this placeholder='2.98'}}
+                    </td>
+                    <td>
+                        {{>input app=app type='number' format='integer' value=payment field='payment' binder=this placeholder='505'}}
+                    </td>
+                    <td>
+                        <a href="#" onclick::{{@remove(app, debts, this)}}>x</a>
+                        {{#if payment < @minimumPayment(this)}}
+                            [minimum: {{@minimumPayment(this)}}]
+                        {{/if}}
+                    </td>
+                </tr>
+            {{/each}}
+        {{/with}}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td>
+                <button onclick::{{@add(app, debts)}}>Add Debt</button>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+
+<h3>
+    How much extra $ can you afford to pay down these debts <em>fast</em>?
+</h3>
+
+{{>input app=app type='number' format='integer' value=extra field='extra' binder=this placeholder='500'}}
+
+{{$chart app=app type='line' data=@chart(debts, extra)}}
+
+<table>
+    <thead>
+        <tr>
+            <th>Snowball</th>
+            <th>vs.</th>
+            <th>Avalanche</th>
+        </tr>
+
+        <tr>
+            <th>prioritizes the debts with the lowest balance</th>
+            <th></th>
+            <th>puts the debt with the highest interest rate first</th>
+        </tr>
+    </thead>
+
+    {{#with snowball=(@snowball(debts, extra)) avalanche=(@avalanche(debts, extra)) extra=extra}}
+        <tbody>
+            <tr>
+                <td>Paid off in {{snowball.totalMonths}} months</td>
+                <td></td>
+                <td>Paid off in {{avalanche.totalMonths}} months</td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{@currency(snowball.totalInterest)}} in Interest
+                </td>
+                <td></td>
+                <td>
+                    {{@currency(avalanche.totalInterest)}} in Interest
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{@currency(snowball.totalPaid)}} in Total
+                </td>
+                <td></td>
+                <td>
+                    {{@currency(avalanche.totalPaid)}} in Total
+                </td>
+            </tr>
+
+            {{#with snowballInterestDiff=(snowball.totalInterest - avalanche.totalInterest)}}
+                <tr>
+                    <td>
+                        {{>diff amount=snowballInterestDiff}}
+                    </td>
+                    <td></td>
+                    <td>
+                        {{>diff amount=(snowballInterestDiff * -1)}}
+                    </td>
+                </tr>
+            {{/with}}
+        </tbody>
+    {{/with}}
+</table>

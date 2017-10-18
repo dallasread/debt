@@ -1,0 +1,5 @@
+{{#if amount < 0}}
+    Save {{@currency(amount * -1)}}
+{{else}}
+    Pay {{@currency(amount)}} More
+{{/if}}
