@@ -1,1 +1,5 @@
-<input type::{{type || 'text'}} value::{{value}} placeholder::{{placeholder}} oninput::{{@bind(app, binder, field, format)}}>
+{{#if type === 'checkbox'}}
+    <input type::{{type}} value::{{value}} onchange::{{@bind(app, binder, field, format)}} checked::{{checked}} class::{{class}}>
+{{else}}
+    <input type::{{type || 'text'}} value::{{value}} placeholder::{{placeholder}} oninput::{{@bind(app, binder, field, format)}} class::{{class}}>
+{{/if}}

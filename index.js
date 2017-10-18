@@ -5,7 +5,8 @@ var App = require('./app'),
                 { name: 'Loan',  rate: 5,     principle: 29000, payment: 200 },
                 { name: 'Car',   rate: 19.95, principle: 28000, payment: 500 }
             ],
-            extra: 250
+            extra: 250,
+            consolidatedRate: 3.25
         }
     });
 

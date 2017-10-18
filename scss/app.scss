@@ -56,6 +56,17 @@ input {
     font-size: inherit;
     font-family: inherit;
     font-weight: inherit;
+
+    &[type="checkbox"] {
+        width: auto;
+        min-width: none;
+        padding: 0;
+        border: 0;
+    }
+
+    &.small {
+        width: 3em;
+    }
 }
 
 section {

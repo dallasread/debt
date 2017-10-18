@@ -90,9 +90,27 @@ function avalanche(debts, extra) {
     }), extra);
 }
 
+function consolidated(debts, extra, consolidatedRate) {
+    debts = JSON.parse(JSON.stringify(debts)).filter(exists);
+
+    var principle = debts.reduce(function(sum, d) {
+            return sum + d.principle;
+        }, 0),
+        payment = debts.reduce(function(sum, d) {
+            return sum + d.payment;
+        }, 0);
+
+    return process([{
+        principle: principle,
+        payment: payment,
+        rate: consolidatedRate
+    }], extra);
+}
+
 module.exports = {
     minimumPayment: minimumPayment,
     snowball: snowball,
     avalanche: avalanche,
+    consolidated: consolidated,
     exists: exists
 };

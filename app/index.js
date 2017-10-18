@@ -53,6 +53,8 @@ var App = CustomElement.createElement({
 
                 if (format === 'integer') {
                     val = parseInt(val);
+                } else if (format === 'boolean') {
+                    val = this.checked;
                 } else if (format === 'float') {
                     val = parseFloat(val);
                 }
@@ -66,6 +68,7 @@ var App = CustomElement.createElement({
         },
         snowball: A.snowball,
         avalanche: A.avalanche,
+        consolidated: A.consolidated,
         timeframe: function timeframe(months) {
             if (months < 12) {
                 return months + ' months';
@@ -73,20 +76,12 @@ var App = CustomElement.createElement({
                 return Math.ceil(months / 12.0) + ' years';
             }
         },
-        chart: function chart(debts, extra) {
+        chart: function chart(debts, extra, showConsolidated, consolidatedRate) {
             var snowball = A.snowball(debts, extra),
                 avalanche = A.avalanche(debts, extra),
-                monthLength = Math.ceil(snowball.history.length, avalanche.history.length),
-                labels = [],
-                i;
-
-            for (i = 0; i < monthLength; i++) {
-                labels.push(moment().add(i, 'month').format('MMM YYYY'));
-            }
-
-            return {
-                labels: labels,
-                datasets: [{
+                consolidated = A.consolidated(debts, extra, consolidatedRate),
+                monthLength = Math.max(snowball.history.length, avalanche.history.length, consolidated.history.length),
+                datasets = [{
                     label: 'Snowball',
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
@@ -96,7 +91,26 @@ var App = CustomElement.createElement({
                     backgroundColor: 'rgba(255, 206, 86, 0.2)',
                     borderColor: 'rgba(255, 206, 86, 1)',
                     data: avalanche.history
-                }]
+                }],
+                labels = [],
+                i;
+
+            for (i = 0; i < monthLength; i++) {
+                labels.push(moment().add(i, 'month').format('MMM YYYY'));
+            }
+
+            if (showConsolidated) {
+                datasets.push({
+                    label: 'Consolidated',
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    data: consolidated.history
+                });
+            }
+
+            return {
+                labels: labels,
+                datasets: datasets
             };
         },
     }

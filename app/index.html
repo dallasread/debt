@@ -64,7 +64,15 @@
     </section>
 
     <section>
-        {{$chart app=app type='line' data=@chart(debts, extra)}}
+        {{$chart app=app type='line' data=@chart(debts, extra, showConsolidated, consolidatedRate)}}
+
+        <label>
+            {{>input app=app type='checkbox' checked=showConsolidated field='showConsolidated' binder=this format='boolean'}}
+            Show Consolidated
+            {{#if showConsolidated}}
+                at {{>input app=app type='number' value=consolidatedRate field='consolidatedRate' binder=this placeholder=3.25 class='small'}}
+            {{/if}}
+        </label>
     </section>
 
     <section>
@@ -74,21 +82,36 @@
                     <th class="with-padding align-center"><h3>Snowball</h3></th>
                     <th class="with-padding align-center">vs.</th>
                     <th class="with-padding align-center"><h3>Avalanche</h3></th>
+
+                    {{#if showConsolidated}}
+                        <th class="with-padding align-center">vs.</th>
+                        <th class="with-padding align-center"><h3>Consolidated</h3></th>
+                    {{/if}}
                 </tr>
 
                 <tr>
                     <th class="with-padding align-center">prioritizes the debts with the lowest balance</th>
                     <th class="with-padding align-center"></th>
                     <th class="with-padding align-center">puts the debt with the highest interest rate first</th>
+
+                    {{#if showConsolidated}}
+                        <th class="with-padding align-center"></th>
+                        <th class="with-padding align-center">all debts in one loan</th>
+                    {{/if}}
                 </tr>
             </thead>
 
-            {{#with snowball=(@snowball(debts, extra)) avalanche=(@avalanche(debts, extra)) extra=extra}}
+            {{#with snowball=(@snowball(debts, extra)) avalanche=(@avalanche(debts, extra)) consolidated=(@consolidated(debts, extra, consolidatedRate)) extra=extra}}
                 <tbody>
                     <tr>
                         <td class="with-padding align-center">Paid off in {{snowball.totalMonths}} months</td>
                         <td class="with-padding align-center"></td>
                         <td class="with-padding align-center">Paid off in {{avalanche.totalMonths}} months</td>
+
+                        {{#if showConsolidated}}
+                            <td class="with-padding align-center"></td>
+                            <td class="with-padding align-center">Paid off in {{consolidated.totalMonths}} months</td>
+                        {{/if}}
                     </tr>
 
                     <tr>
@@ -99,6 +122,13 @@
                         <td class="with-padding align-center">
                             {{@currency(avalanche.totalInterest)}} in Interest
                         </td>
+
+                        {{#if showConsolidated}}
+                            <td class="with-padding align-center"></td>
+                            <td class="with-padding align-center">
+                                {{@currency(consolidated.totalInterest)}} in Interest
+                            </td>
+                        {{/if}}
                     </tr>
 
                     <tr>
@@ -109,9 +139,16 @@
                         <td class="with-padding align-center">
                             {{@currency(avalanche.totalPaid)}} in Total
                         </td>
+
+                        {{#if showConsolidated}}
+                            <td class="with-padding align-center"></td>
+                            <td class="with-padding align-center">
+                                {{@currency(consolidated.totalPaid)}} in Total
+                            </td>
+                        {{/if}}
                     </tr>
 
-                    {{#with snowballInterestDiff=(snowball.totalInterest - avalanche.totalInterest)}}
+                    <!-- {{#with snowballInterestDiff=(snowball.totalInterest - avalanche.totalInterest)}}
                         <tr>
                             <td class="with-padding align-center">
                                 {{>diff amount=snowballInterestDiff}}
@@ -121,7 +158,7 @@
                                 {{>diff amount=(snowballInterestDiff * -1)}}
                             </td>
                         </tr>
-                    {{/with}}
+                    {{/with}} -->
                 </tbody>
             {{/with}}
         </table>
