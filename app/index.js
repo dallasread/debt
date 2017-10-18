@@ -81,7 +81,7 @@ var App = CustomElement.createElement({
                 i;
 
             for (i = 0; i < monthLength; i++) {
-                labels.push(moment().add(i, 'month').format('MMM D, YYYY'));
+                labels.push(moment().add(i, 'month').format('MMM YYYY'));
             }
 
             return {
