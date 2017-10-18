@@ -1,12 +1,12 @@
 var App = require('./app'),
     app = new App({
-        data: JSON.parse(window.localStorage.getItem('calc') || JSON.stringify({
+        data: window.localStorage && window.localStorage.getItem('calc') ? JSON.parse(window.localStorage.getItem('calc')) : {
             debts: [
-                { name: 'House', rate: 2.89, principle: 209000, payment: 1050 },
-                { name: 'Car',   rate: 5.95, principle: 28000,  payment: 505 }
+                { name: 'Loan',  rate: 5,     principle: 29000, payment: 200 },
+                { name: 'Car',   rate: 19.95, principle: 28000, payment: 500 }
             ],
-            extra: 650
-        }))
+            extra: 250
+        }
     });
 
 window.app = app;

@@ -18,3 +18,51 @@ i, em {
 b, strong {
     font-weight: bold;
 }
+
+.container {
+    width: 100%;
+    max-width: 840px;
+    font-family: Helvetica Neue, Helvetica, Arial, Sans Serif;
+    font-weight: 300;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    margin: 0 auto;
+
+    tbody td {
+        border: 1px solid #ccc;
+    }
+
+    .with-padding {
+        padding: 0.5em;
+    }
+
+    input {
+        border: 0;
+
+        &[type="number"] {
+            text-align: right;
+        }
+    }
+}
+
+input {
+    min-width: 5em;
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+section {
+    display: block;
+    margin-bottom: 40px;
+}
+
+.align-center {
+    text-align: center;
+}
