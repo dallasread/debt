@@ -134,6 +134,15 @@ App.definePrototype({
         window.localStorage.setItem('calc', JSON.stringify(_._data));
         _.update();
     },
+    importData: function importData(data) {
+        var _ = this;
+
+        for (var key in data) {
+            _._data[key] = data[key];
+        }
+
+        _.save();
+    },
 });
 
 module.exports = App;
