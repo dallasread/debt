@@ -69,10 +69,11 @@
         <label>
             {{>input app=app type='checkbox' checked=showConsolidated field='showConsolidated' binder=this format='boolean'}}
             Show Consolidated
-            {{#if showConsolidated}}
-                at {{>input app=app type='number' value=consolidatedRate field='consolidatedRate' binder=this placeholder=3.25 class='small'}}
-            {{/if}}
         </label>
+
+        {{#if showConsolidated}}
+            at {{>input app=app type='number' value=consolidatedRate field='consolidatedRate' binder=this placeholder=3.25 class='small'}}%
+        {{/if}}
     </section>
 
     <section>

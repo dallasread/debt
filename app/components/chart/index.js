@@ -12,6 +12,7 @@ var Chart = CustomElement.createElement({
     _.set('chart', new ChartJS(_.element.children[0], {
         type: options.type,
         options: {
+            animation: false,
             scales: {
                 yAxes: [{
                     ticks: {

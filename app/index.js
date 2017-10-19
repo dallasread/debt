@@ -1,9 +1,9 @@
 var CustomElement = require('generate-js-custom-element'),
     moment = require('moment'),
     A = require('./utils/amortization'),
+    parameterize = require('./utils/parameterize'),
     $ = require('jquery'),
-    COMMA_REGEX = /(\d+)(\d{3})/,
-    ONE_MONTH = 60 * 60 * 24 * 30 * 1000;
+    COMMA_REGEX = /(\d+)(\d{3})/;
 
 function comma(val){
     while (COMMA_REGEX.test(val.toString())){
@@ -130,8 +130,17 @@ var App = CustomElement.createElement({
 
 App.definePrototype({
     save: function save() {
-        var _ = this;
-        window.localStorage.setItem('calc', JSON.stringify(_._data));
+        var _ = this,
+            url = window.location.href.split('?')[0] + '?debt=' + encodeURIComponent(btoa(JSON.stringify(_._data)));
+
+        if (window.history) {
+            window.history.replaceState({}, url, url);
+        }
+
+        if (window.localStorage) {
+            window.localStorage.setItem('calc', JSON.stringify(_._data));
+        }
+
         _.update();
     },
     importData: function importData(data) {
@@ -142,7 +151,9 @@ App.definePrototype({
         }
 
         _.save();
-    },
+    }
 });
+
+window.parameterize = parameterize;
 
 module.exports = App;

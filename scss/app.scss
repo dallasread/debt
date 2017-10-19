@@ -65,7 +65,9 @@ input {
     }
 
     &.small {
-        width: 3em;
+        min-width: auto;
+        width: 4em;
+        text-align: center;
     }
 }
 
