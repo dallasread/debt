@@ -103,7 +103,7 @@ function consolidated(debts, extra, consolidatedRate) {
     return process([{
         principle: principle,
         payment: payment,
-        rate: consolidatedRate
+        rate: consolidatedRate || 0
     }], extra);
 }
 
