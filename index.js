@@ -5,7 +5,7 @@ try {
         data = JSON.parse(window.localStorage.getItem('calc'));
     }
 
-    if (typeof data === 'undefined') {
+    if (!data) {
         if (window.location.search.indexOf('debt') !== -1) {
             var match = window.location.search.match(/debt=([^&$]+)/);
 
@@ -16,7 +16,7 @@ try {
     }
 } catch (e) {}
 
-if (typeof data === 'undefined' || typeof data.debts === 'undefined') {
+if (!data || !data.debts) {
     data = {
         debts: [
             { name: 'Loan',  rate: 5,     principle: 29000, payment: 200 },
