@@ -19,6 +19,6 @@ function paramsArray(obj, prefix, q) {
 
 module.exports = function parameterize(obj) {
     return paramsArray(obj).map(function(a) {
-        return a[0] + '=' + encodeURIComponent(a[1]);
+        return a[0] + '=' + a[1];
     }).join('&');
 };
