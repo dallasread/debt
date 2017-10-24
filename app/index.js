@@ -117,6 +117,8 @@ var App = CustomElement.createElement({
 }, function App(options) {
     var _ = this;
 
+    options          = options || {};
+    options.data     = _.loadData(options.data);
     options.data.app = _;
 
     CustomElement.call(_, options || {});
@@ -151,7 +153,39 @@ App.definePrototype({
         }
 
         _.save();
-    }
+    },
+    loadData: function loadData(data) {
+        if (data) return data;
+
+        try {
+            if (window.localStorage) {
+                data = JSON.parse(window.localStorage.getItem('calc'));
+            }
+
+            if (!data) {
+                if (window.location.search.indexOf('debt') !== -1) {
+                    var match = window.location.search.match(/debt=([^&$]+)/);
+
+                    if (match) {
+                        data = JSON.parse(atob(decodeURIComponent(match[1])));
+                    }
+                }
+            }
+        } catch (e) {}
+
+        if (!data || !data.debts) {
+            data = {
+                debts: [
+                    { name: 'Loan',  rate: 5,     principle: 29000, payment: 200 },
+                    { name: 'Car',   rate: 19.95, principle: 28000, payment: 500 }
+                ],
+                extra: 250,
+                consolidatedRate: 3.25
+            };
+        }
+
+        return data;
+    },
 });
 
 window.parameterize = parameterize;
