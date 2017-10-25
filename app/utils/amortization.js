@@ -1,9 +1,9 @@
 function exists(debt) {
-    if (!debt || typeof debt.principle === 'undefined' || typeof debt.payment === 'undefined' || debt.principle <= 0) {
+    if (!debt || typeof debt.principal === 'undefined' || typeof debt.payment === 'undefined' || debt.principal <= 0) {
         return false;
     }
 
-    if (debt.payment < minimumPayment(debt.rate, 30 * 12, debt.principle)) {
+    if (debt.payment < minimumPayment(debt.rate, 30 * 12, debt.principal)) {
         return false;
     }
 
@@ -22,21 +22,21 @@ function minimumPayment(rate, nper, pv) {
 }
 
 function pay(debt, ledger, payment, withInterest) {
-    var interest = withInterest ? debt.principle * (debt.rate / 100 / 12) : 0;
+    var interest = withInterest ? debt.principal * (debt.rate / 100 / 12) : 0;
 
     if (!payment || payment > ledger.currentBudget) {
         payment = ledger.currentBudget;
     }
 
-    if (debt.principle < payment) {
-        payment = debt.principle;
+    if (debt.principal < payment) {
+        payment = debt.principal;
         interest = 0;
     }
 
     ledger.currentBudget -= payment;
     ledger.totalPaid += payment;
     ledger.totalPrincipal += payment - interest;
-    debt.principle -= payment - interest;
+    debt.principal -= payment - interest;
     ledger.totalInterest += interest;
 }
 
@@ -59,19 +59,19 @@ function process(debts, extra) {
         ledger.currentBudget = ledger.monthlyBudget;
 
         for (i = 0; i < debts.length; i++) {
-            if (debts[i].principle <= 0) continue;
+            if (debts[i].principal <= 0) continue;
             if (ledger.currentBudget <= 0) break;
             pay(debts[i], ledger, debts[i].payment, true);
         }
 
         for (i = 0; i < debts.length; i++) {
-            if (debts[i].principle <= 0) continue;
+            if (debts[i].principal <= 0) continue;
             if (ledger.currentBudget <= 0) break;
-            pay(debts[i], ledger, debts[i].principle);
+            pay(debts[i], ledger, debts[i].principal);
         }
 
         ledger.history.push(debts.reduce(function(sum, debt) {
-            return sum + debt.principle;
+            return sum + debt.principal;
         }, 0));
     }
 
@@ -80,7 +80,7 @@ function process(debts, extra) {
 
 function snowball(debts, extra) {
     return process(JSON.parse(JSON.stringify(debts)).filter(exists).sort(function(a, b) {
-        return b.principle - a.principle;
+        return b.principal - a.principal;
     }), extra);
 }
 
@@ -93,15 +93,15 @@ function avalanche(debts, extra) {
 function consolidated(debts, extra, consolidatedRate) {
     debts = JSON.parse(JSON.stringify(debts)).filter(exists);
 
-    var principle = debts.reduce(function(sum, d) {
-            return sum + d.principle;
+    var principal = debts.reduce(function(sum, d) {
+            return sum + d.principal;
         }, 0),
         payment = debts.reduce(function(sum, d) {
             return sum + d.payment;
         }, 0);
 
     return process([{
-        principle: principle,
+        principal: principal,
         payment: payment,
         rate: consolidatedRate || 0
     }], extra);

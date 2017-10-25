@@ -30,7 +30,8 @@ var App = CustomElement.createElement({
             return typeof obj !== 'object' || !Object.keys(obj).length;
         },
         add: function add(app, collection) {
-            return function() {
+            return function(e) {
+                e.preventDefault();
                 collection.push({});
                 app.save();
             };
@@ -46,7 +47,7 @@ var App = CustomElement.createElement({
         },
         comma: comma,
         minimumPayment: function minPayment(debt) {
-            return Math.ceil(A.minimumPayment(debt.rate, 30 * 12, debt.principle));
+            return Math.ceil(A.minimumPayment(debt.rate, 30 * 12, debt.principal));
         },
         bind: function bind(app, binder, field, format) {
             return function() {
@@ -180,8 +181,8 @@ App.definePrototype({
         if (!data || !data.debts) {
             data = {
                 debts: [
-                    { name: 'Loan',  rate: 5,     principle: 29000, payment: 200 },
-                    { name: 'Car',   rate: 19.95, principle: 28000, payment: 500 }
+                    { name: 'Loan',  rate: 5,     principal: 29000, payment: 200 },
+                    { name: 'Car',   rate: 19.95, principal: 28000, payment: 500 }
                 ],
                 extra: 250,
                 consolidatedRate: 3.25

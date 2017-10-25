@@ -8,7 +8,7 @@
             <thead>
                 <tr>
                     <th>Debt</th>
-                    <th>Principle</th>
+                    <th>Principal</th>
                     <th>Annual Interest</th>
                     <th>Minimum Payment</th>
                 </tr>
@@ -22,7 +22,7 @@
                                 {{>input app=app value=name field='name' binder=this placeholder='Debt Name'}}
                             </td>
                             <td>
-                                {{>input app=app type='number' format='integer' value=principle field='principle' binder=this placeholder='100,000'}}
+                                {{>input app=app type='number' format='integer' value=principal field='principal' binder=this placeholder='100,000'}}
                             </td>
                             <td>
                                 {{>input app=app type='number' format='float' value=rate field='rate' binder=this placeholder='2.98'}}
@@ -113,6 +113,23 @@
                         {{#if showConsolidated}}
                             <td class="with-padding align-center"></td>
                             <td class="with-padding align-center">Paid off in {{consolidated.totalMonths}} months</td>
+                        {{/if}}
+                    </tr>
+
+                    <tr>
+                        <td class="with-padding align-center">
+                            {{@currency(snowball.totalPrincipal)}} in Principal
+                        </td>
+                        <td class="with-padding align-center"></td>
+                        <td class="with-padding align-center">
+                            {{@currency(avalanche.totalPrincipal)}} in Principal
+                        </td>
+
+                        {{#if showConsolidated}}
+                            <td class="with-padding align-center"></td>
+                            <td class="with-padding align-center">
+                                {{@currency(consolidated.totalPrincipal)}} in Principal
+                            </td>
                         {{/if}}
                     </tr>
 
