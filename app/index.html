@@ -31,9 +31,10 @@
                                 {{>input app=app type='number' format='integer' value=payment field='payment' binder=this placeholder='505'}}
                             </td>
                             <td>
-                                <a href="#" onclick::{{@remove(app, debts, this)}}>x</a>
+                                <a href="#" class="with-padding" onclick::{{@remove(app, debts, this)}}>x</a>
+
                                 {{#if payment < @minimumPayment(this)}}
-                                    [minimum: {{@minimumPayment(this)}}]
+                                    <p class="minimum">Minimum: {{@minimumPayment(this)}}</p>
                                 {{/if}}
                             </td>
                         </tr>
