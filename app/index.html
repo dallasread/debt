@@ -34,7 +34,7 @@
                                 <a href="#" class="with-padding" onclick::{{@remove(app, debts, this)}}>x</a>
 
                                 {{#if payment < @minimumPayment(this)}}
-                                    <p class="minimum">Minimum: {{@minimumPayment(this)}}</p>
+                                    <p class="minimum">Min: {{@minimumPayment(this)}}</p>
                                 {{/if}}
                             </td>
                         </tr>
