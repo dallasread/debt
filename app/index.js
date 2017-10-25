@@ -36,7 +36,8 @@ var App = CustomElement.createElement({
             };
         },
         remove: function remove(app, debts, debt) {
-            return function() {
+            return function(e) {
+                 e.preventDefault();
                 debts.splice(debts.indexOf(debt), 1);
                 app.set('debts', []);
                 app.set('debts', debts);
@@ -190,7 +191,5 @@ App.definePrototype({
         return data;
     },
 });
-
-window.parameterize = parameterize;
 
 module.exports = App;
