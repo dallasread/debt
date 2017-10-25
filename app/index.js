@@ -125,6 +125,8 @@ var App = CustomElement.createElement({
 
     var $el = $(_.element);
 
+    _.element.classList += 'debt';
+
     $el.on('click', '.toggle-sidebar', function() {
         return false;
     });
@@ -140,7 +142,7 @@ App.definePrototype({
         }
 
         if (window.localStorage) {
-            window.localStorage.setItem('calc', JSON.stringify(_._data));
+            window.localStorage.setItem('debt', JSON.stringify(_._data));
         }
 
         _.update();
@@ -159,7 +161,7 @@ App.definePrototype({
 
         try {
             if (window.localStorage) {
-                data = JSON.parse(window.localStorage.getItem('calc'));
+                data = JSON.parse(window.localStorage.getItem('debt'));
             }
 
             if (!data) {
