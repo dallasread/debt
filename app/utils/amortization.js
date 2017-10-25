@@ -35,7 +35,6 @@ function pay(debt, ledger, payment, withInterest) {
 
     ledger.currentBudget -= payment;
     ledger.totalPaid += payment;
-    ledger.totalPrincipal += payment - interest;
     debt.principal -= payment - interest;
     ledger.totalInterest += interest;
 }
@@ -50,6 +49,9 @@ function process(debts, extra) {
             totalPrincipal: 0,
             monthlyBudget: extra + debts.reduce(function(sum, debt) {
                 return sum + debt.payment;
+            }, 0),
+            totalPrincipal: debts.reduce(function(sum, debt) {
+                return sum + debt.principal;
             }, 0),
             history: []
         }, i;
