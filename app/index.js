@@ -117,9 +117,10 @@ var App = CustomElement.createElement({
 }, function App(options) {
     var _ = this;
 
-    options          = options || {};
-    options.data     = _.loadData(options.data);
-    options.data.app = _;
+    options                  = options || {};
+    options.data             = _.loadData(options.data);
+    options.data.app         = _;
+    options.data.buttonClass = options.buttonClass;
 
     CustomElement.call(_, options || {});
 
