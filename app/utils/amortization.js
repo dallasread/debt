@@ -22,7 +22,7 @@ function minimumPayment(rate, nper, pv) {
 }
 
 function pay(debt, ledger, payment, withInterest) {
-    var interest = withInterest ? debt.principal * (debt.rate / 100 / 12) : 0;
+    var interest = withInterest ? debt.principal * ((debt.rate || 0) / 100 / 12) : 0;
 
     if (!payment || payment > ledger.currentBudget) {
         payment = ledger.currentBudget;
@@ -47,6 +47,9 @@ function process(debts, extra) {
             totalPaid: 0,
             totalMonths: 0,
             totalPrincipal: 0,
+            totalPayment: debts.reduce(function(sum, debt) {
+                return sum + debt.payment;
+            }, 0),
             monthlyBudget: extra + debts.reduce(function(sum, debt) {
                 return sum + debt.payment;
             }, 0),

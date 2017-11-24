@@ -1,0 +1,137 @@
+{{#with app=app debts=@ensureAnEmpty(debts) snowball=@snowball(debts, extra) avalanche=@avalanche(debts, extra) consolidated=(@consolidated(debts, extra, consolidatedRate))}}
+    <div class="container">
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Rate</th>
+                        <th>Principal</th>
+                        <th>Payment</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each debts}}
+                        <tr>
+                            <td>
+                                {{>input app=app value=name field='name' binder=this placeholder='Add Another Debt'}}
+                            </td>
+                            <td>
+                                {{>input app=app type='number' format='float' value=rate field='rate' binder=this placeholder='0.00' class='masked-rate'}}
+                            </td>
+                            <td>
+                                {{>input app=app type='number' format='integer' value=principal field='principal' binder=this placeholder='0' class='masked-currency'}}
+                            </td>
+                            <td>
+                                {{>input app=app type='number' format='integer' value=payment field='payment' binder=this placeholder='0' class='masked-currency'}}
+                            </td>
+                            <td>
+                                <a href="#" class="with-padding delete" onclick::{{@remove(app, debts, this)}}>x</a>
+
+                                {{#if payment < @minimumPayment(this)}}
+                                    <p class="minimum">Min: {{@currency(@minimumPayment(this))}}</p>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td>
+                            {{>input app=app value='Total' field='name' binder=this disabled='disabled'}}
+                        </td>
+                        <td></td>
+                        <td>
+                            {{>input value=snowball.totalPrincipal field='name' disabled='disabled' type='number'}}
+                        </td>
+                        <td>
+                            {{>input value=snowball.totalPayment field='name' disabled='disabled' type='number'}}
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <section class="blue-section">
+            <h2>How much <underline>extra</underline> are you willing to commit <underline>monthly</underline> to pay your debts?</h2>
+            <h3>
+                ${{>input app=app type='number' format='integer' value=extra field='extra' binder=this placeholder=0 class='masked-currency'}}
+            </h3>
+            {{>input app=app type='range' format='integer' value=extra field='extra' binder=this step=25 min=0 max=1500}}
+        </section>
+
+        <section class="process">
+            {{>graph interest=avalanche.totalInterest principal=avalanche.totalPrincipal}}
+
+            <div class="words">
+                <h2>Using the method of</h2>
+                <h3>Avalanche*</h3>
+                <h2>You'll be debt-free in</h2>
+                <h4>{{avalanche.totalMonths}}</h4>
+                <h5>months</h5>
+
+                <p>*Pay debts with the highest interest rate first.</p>
+            </div>
+        </section>
+
+        <section class="or">
+            <h3>
+                <span>
+                    Or
+                </span>
+            </h3>
+        </section>
+
+        <section class="process">
+            {{>graph interest=snowball.totalInterest principal=snowball.totalPrincipal}}
+
+            <div class="words">
+                <h2>Using the method of</h2>
+                <h3>Snowball*</h3>
+                <h2>You'll be debt-free in</h2>
+                <h4>{{snowball.totalMonths}}</h4>
+                <h5>months</h5>
+
+                <p>*Pay the debts with the lowest balance first.</p>
+            </div>
+        </section>
+
+        <div>
+            {{#if showConsolidated}}
+                <section class="or">
+                    <h3>
+                        <span>
+                            Or
+                        </span>
+                    </h3>
+                </section>
+
+                <section class="process">
+                    {{>graph interest=consolidated.totalInterest principal=consolidated.totalPrincipal}}
+
+                    <div class="words">
+                        <h2>Using the method of</h2>
+                        <h3>Consolidate*</h3>
+                        <h2>You'll be debt-free in</h2>
+                        <h4>{{consolidated.totalMonths}}</h4>
+                        <h5>months</h5>
+
+                        <p>*All debts in a single, low-interest loan at at {{>input app=app type='number' value=consolidatedRate field='consolidatedRate' format='float' binder=this placeholder='0.00' class='masked-rate small'}}%.</p>
+                    </div>
+                </section>
+            {{/if}}
+        </div>
+
+        <section class="chart-section">
+            {{$chart app=app type='line' data=@chart(debts, extra, showConsolidated, consolidatedRate)}}
+
+            <label>
+                {{>input app=app type='checkbox' checked=showConsolidated field='showConsolidated' binder=this format='boolean'}}
+                Show Consolidated
+            </label>
+        </section>
+    </div>
+{{/with}}

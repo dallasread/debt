@@ -24,9 +24,11 @@
     "chart.js": "^2.7.0",
     "generate-js-custom-element": "Mike96Angelo/Custom-Element#components",
     "jquery": "^3.2.1",
+    "maskerjs": "^1.8.3",
     "moment": "^2.19.1",
     "params-url": "^1.1.5",
     "query-string": "^5.0.0",
+    "rangeslider.js": "^2.3.1",
     "webpack": "^3.5.2",
     "write-json-webpack-plugin": "^1.0.0"
   }

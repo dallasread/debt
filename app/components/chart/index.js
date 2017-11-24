@@ -46,7 +46,7 @@ Chart.definePrototype({
                 chart.data = _.get('data');
                 chart.update();
             }
-        }, 500);
+        }, 30);
 
         return _.getSuper().update.apply(_, arguments);
     },

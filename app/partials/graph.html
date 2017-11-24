@@ -1,0 +1,16 @@
+<graph>
+    <div class="interest" style="height: {{interest * 100 / (interest + principal)}}%; ">
+        <bar></bar>
+        <p>
+            <span>{{@currency(interest)}}</span>
+            Interest
+        </p>
+    </div>
+    <div class="principal" style="height: {{principal * 100 / (interest + principal)}}%; ">
+        <bar></bar>
+        <p>
+            <span>{{@currency(principal)}}</span>
+            Principal
+        </p>
+    </div>
+</graph>
