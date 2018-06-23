@@ -1,6 +1,7 @@
 var CustomElement = require('generate-js-custom-element'),
     Masker = require('maskerjs'),
-    $ = require('jquery');
+    $ = require('jquery'),
+    saveTimer;
 
 var App = CustomElement.createElement({
     template: require('./words.html'),
@@ -35,23 +36,26 @@ var App = CustomElement.createElement({
 
 App.definePrototype({
     update: function update() {
-        var _ = this,
-            $el = $(_.element);
-
+        var _ = this;
         _.getSuper().update.apply(_, arguments);
     },
 
     save: function save() {
-        var _ = this,
-            url = window.location.href.split('?')[0] + '?debt=' + encodeURIComponent(btoa(JSON.stringify(_._data)));
+        var _ = this;
 
-        if (window.history) {
-            window.history.replaceState({}, url, url);
-        }
+        clearTimeout(saveTimer);
 
-        if (window.localStorage) {
-            window.localStorage.setItem('debt', JSON.stringify(_._data));
-        }
+        saveTimer = setTimeout(function() {
+            var url = window.location.href.split('?')[0] + '?debt=' + encodeURIComponent(btoa(JSON.stringify(_._data)));
+
+            if (window.history) {
+                window.history.replaceState({}, url, url);
+            }
+
+            if (window.localStorage) {
+                window.localStorage.setItem('debt', JSON.stringify(_._data));
+            }
+        }, 500);
 
         _.update();
     },
