@@ -18,7 +18,7 @@
                                 {{>input app=app value=name field='name' binder=this placeholder='Add Another Debt'}}
                             </td>
                             <td>
-                                {{>input app=app type='text' format='float' value=rate field='rate' binder=this placeholder='0.00' class='masked-rate'}}
+                                {{>input app=app type='text' value=rate field='rate' binder=this placeholder='0.00' class='masked-rate'}}
                             </td>
                             <td>
                                 {{>input app=app type='number' format='integer' value=principal field='principal' binder=this placeholder='0' class='masked-currency'}}
@@ -60,7 +60,7 @@
             <h3>
                 ${{>input app=app type='number' format='integer' value=extra field='extra' binder=this placeholder=0 class='masked-currency'}}
             </h3>
-            {{>input app=app type='range' format='integer' value=extra field='extra' binder=this step=25 min=0 max=1500}}
+            {{>input app=app type='range' format='integer' value=extra field='extra' binder=this step=25 min=0 max=(snowball.totalPayment * 2)}}
         </section>
 
         <section class="process">

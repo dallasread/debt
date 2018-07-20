@@ -3,13 +3,16 @@ $red: #ed4639;
 $green: #adf39d;
 
 .debt {
-    font-size: 110%;
-
     section {
         font-family: 'Code Bold';
         margin: 0;
         background: #fafafa;
         padding: 40px;
+
+        @media (max-width: 640px) {
+            padding: 15px;
+            font-size: 90%;
+        }
 
         &.blue-section {
             background: $blue;
@@ -168,14 +171,22 @@ $green: #adf39d;
         margin-top: -1.85em;
         margin-left: 2em;
         font-size: 80%;
+
+        @media (max-width: 640px) {
+            margin-top: 1em;
+            margin-left: -4em;
+        }
     }
 
     table {
+        font-size: 90%;
+
         th {
             text-align: right;
             padding: 0.5em;
             letter-spacing: 0.1em;
             color: #ccc;
+            font-size: 80%;
         }
 
         tr {

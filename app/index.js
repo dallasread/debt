@@ -93,7 +93,7 @@ App.definePrototype({
                     { name: 'Loan',  rate: 5,     principal: 29000, payment: 200 },
                     { name: 'Car',   rate: 19.95, principal: 28000, payment: 500 }
                 ],
-                extra: 250,
+                extra: 500,
                 consolidatedRate: 3.25
             };
         }

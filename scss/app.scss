@@ -39,15 +39,24 @@
         }
 
         .delete {
-            color: #ccc;
             font-size: 70%;
+            color: #A80003;
         }
 
         input {
             border: 0;
+            text-align: right;
+        }
 
-            &[type="number"] {
-                text-align: right;
+        td, th {
+            &:first-child input {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 640px) {
+            th {
+                font-size: 90%;
             }
         }
     }
@@ -60,6 +69,10 @@
         font-size: inherit;
         font-family: inherit;
         font-weight: inherit;
+
+        @media (max-width: 640px) {
+            min-width: 3em;
+        }
 
         &[type="checkbox"], &[type="range"] {
             width: auto;
