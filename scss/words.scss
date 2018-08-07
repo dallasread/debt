@@ -181,26 +181,39 @@ $green: #adf39d;
     table {
         font-size: 90%;
 
-        th {
-            text-align: right;
-            padding: 0.5em;
-            letter-spacing: 0.1em;
-            color: #ccc;
-            font-size: 80%;
+        tbody {
+            th {
+                text-align: right;
+                padding: 0.5em;
+                letter-spacing: 0.1em;
+                color: #ccc;
+                font-size: 80%;
+            }
+
+            tr {
+                &:nth-child(even) {
+                    background: #fff;
+                }
+
+                td {
+                    border: none;
+
+                    &:first-child input {
+                        font-weight: bold;
+                        color: $blue;
+                    }
+                }
+            }
         }
 
-        tr {
-            &:nth-child(even) {
-                background: #fff;
+        tfoot tr {
+            td, input {
+                color: #333;
+                font-size: 115%;
             }
 
             td {
-                border: none;
-
-                &:first-child input {
-                    font-weight: bold;
-                    color: $blue;
-                }
+                border-top: 1px solid #ccc;
             }
         }
     }

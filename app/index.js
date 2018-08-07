@@ -1,5 +1,4 @@
 var CustomElement = require('generate-js-custom-element'),
-    Masker = require('maskerjs'),
     $ = require('jquery'),
     saveTimer;
 

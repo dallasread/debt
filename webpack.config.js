@@ -1,21 +1,16 @@
-var path = require('path'),
-    webpack = require('webpack'),
+var MiniCssExtractPlugin = require('mini-css-extract-plugin'),
     isProduction = process.argv.indexOf('-p') !== -1,
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    WriteJsonPlugin = require('write-json-webpack-plugin'),
-    extractSass = new ExtractTextPlugin({
-        filename: './assets/calc.min.css'
-    });
+    mode = isProduction ? 'production' : 'development',
+    prefix = (mode === 'production' ? '.' : '');
 
 var js = {
+    mode: mode,
     entry: ['./index.js'],
-    output: { filename: './assets/calc.min.js' },
+    output: { filename: prefix + './assets/calc.min.js' },
     module: {
-        loaders: [
-            { test: /\.json$/, loader: 'json-loader' },
+        rules: [
             { test: /\.html$/, loader: 'html-loader?minimize=false' },
-            { test: /\.png$/,  loader: 'url-loader?mimetype=image/png' },
-            { test: /\.jpeg|\.jpg$/, loader: 'url-loader?mimetype=image/jpeg' },
+            { test: /\.(png|jpg|gif|wav|ogg|mp3)$/, loader: 'url-loader' },
         ],
     },
     node: {
@@ -24,23 +19,25 @@ var js = {
 };
 
 var css = {
+    mode: mode,
     entry: ['./index.scss'],
-    output: { filename: '../tmp/style.css' },
+    output: { filename: prefix + './tmp/style.css' },
     module: {
-        rules: [{
-            test: /\.scss|\.css$/,
-            use: extractSass.extract({
-                use: [{
-                    loader: 'css-loader'
-                }, {
-                    loader: 'sass-loader'
-                }],
-                fallback: 'style-loader'
-            })
-        }]
+        rules: [
+            {
+                test: /\.scss|\.css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
     },
     plugins: [
-        extractSass
+        new MiniCssExtractPlugin({
+            filename: prefix + './assets/calc.min.css',
+        })
     ]
 };
 
